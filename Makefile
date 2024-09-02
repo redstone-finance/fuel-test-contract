@@ -1,13 +1,13 @@
 
 IS_LOCAL=0
 
-SALT=--salt 0x0000000000000000000000000000000000000000000000000000000000000001
+SALT=--salt 0x0000000000000000000000000000000000000000000000000000000000000006
 #SALT=--default-salt
 
 ifeq ($(IS_LOCAL), 0)
 #	SIGNING_KEY= # forc-wallet account 0
-	NODE_URL=--target testnet
-	GAS_PRICE=1
+	NODE_URL=--node-url https://testnet.fuel.network/v1/graphql
+#	GAS_PRICE=1
 else
 	SIGNING_KEY=--default-signer
 	NODE_URL=--target local
@@ -31,7 +31,7 @@ endef
 .PHONY: contract_id get_contract_id format
 
 format:
-	$(call run_in_dirs,$(DIRS),forc fmt)
+	# $(call run_in_dirs,$(DIRS),forc fmt)
 
 lint:
 	$(call run_in_dirs,$(DIRS),forc fmt --check)
@@ -47,7 +47,7 @@ perform_deploy: format
 	forc deploy --path $(CONTRACT) --terse \
 	$(SALT) \
 	$(NODE_URL) \
-	--gas-price $(GAS_PRICE) $(SIGNING_KEY)
+	$(SIGNING_KEY)
 
 get_contract_id:
 	forc contract-id --path $(CONTRACT) --terse --release $(SALT) | grep "Contract id:" | cut -c 20- > $(CONTRACT_ID_FILE) 
@@ -70,5 +70,3 @@ init: format
 
 deploy_and_init: deploy init
 
-test: format
-	forc test --path $(LIBRARY)
