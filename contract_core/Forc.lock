@@ -4,8 +4,16 @@ source = "path+from-root-C485BFF5467B6B6C"
 
 [[package]]
 name = "redstone"
-source = "member"
+source = "path+from-root-3A2336EE93C62038"
 dependencies = ["std"]
+
+[[package]]
+name = "redstone_core"
+source = "member"
+dependencies = [
+    "redstone",
+    "std",
+]
 
 [[package]]
 name = "std"

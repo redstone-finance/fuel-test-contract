@@ -1,13 +1,13 @@
 
-IS_LOCAL=0
+IS_LOCAL=1
 
-SALT=--salt 0x0000000000000000000000000000000000000000000000000000000000000006
+SALT=--salt 0x0000000000000000000000000000000000000000000000000000000000000008
 #SALT=--default-salt
 
 ifeq ($(IS_LOCAL), 0)
 #	SIGNING_KEY= # forc-wallet account 0
 	NODE_URL=--node-url https://testnet.fuel.network/v1/graphql
-#	GAS_PRICE=1
+	GAS_PRICE=0
 else
 	SIGNING_KEY=--default-signer
 	NODE_URL=--target local
@@ -15,7 +15,7 @@ else
 endif
 
 DEMO=demo
-CONTRACT=test_contract
+CONTRACT=contract_core
 INITIALIZER=contract_initializer
 CONTRACT_ID_FILE=./$(CONTRACT)/CONTRACT_ID
 CONTRACT_ID=$(shell cat $(CONTRACT_ID_FILE))
@@ -69,4 +69,3 @@ init: format
 
 
 deploy_and_init: deploy init
-
